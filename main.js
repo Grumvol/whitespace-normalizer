@@ -15,7 +15,7 @@ define(function (/* require, exports, module */) {
     prefs = PreferencesManager.getExtensionPrefs(PREFERENCES_KEY),
     justModified = false;
 
-  $(DocumentManager).on('documentSaved', main);
+  DocumentManager.on('documentSaved', main);
 
   function main(event, doc) {
     if (!extensionEnabledPref.enabled()) return;
@@ -101,7 +101,7 @@ define(function (/* require, exports, module */) {
     this.label = label;
     this.commandId = EXTENSION_KEY + (commandIdSuffix ? ('.' + commandIdSuffix) : '');
     this.command = this.registerCommand();
-    prefs.definePreference(this.name, "boolean", "true")
+    prefs.definePreference(this.name, "boolean", true)
     this.set(prefs.get(this.name))
     this.constructor.menu.addMenuItem(this.commandId)
   }
@@ -116,7 +116,7 @@ define(function (/* require, exports, module */) {
       this.set(!this.command.getChecked())
     },
     enabled: function () {
-      return this.value() === 'true' || this.value() === true
+      return this.value() === true
     },
     value: function () {
       return prefs.get(this.name)
